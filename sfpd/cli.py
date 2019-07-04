@@ -1,9 +1,13 @@
+#!/usr/bin/env python
+
 import argparse
+import re
+from itertools import islice
 from pathlib import Path
 
 import pandas as pd
 
-from sfpd.sfpd import count_words, top_words_llr, top_words_sfpd, top_words_chi2, get_top_phrases, top_phrases_to_csv
+from sfpd.sfpd import count_words, top_words_llr, top_words_sfpd, top_words_chi2, get_top_phrases
 
 
 def parse_args():
@@ -50,8 +54,8 @@ def parse_args():
     # Parameters for phrase discovery
     parser.add_argument("--num-phrases", default=1, type=int, metavar="N")
     parser.add_argument("--min-phrase-size", default=1, type=int, metavar="N")
-    parser.add_argument("--max-phrase-size", default=1, type=int, metavar="N")
-    parser.add_argument("--min-leaf-pruning", default=0.3, type=float, metavar="N",
+    parser.add_argument("--max-phrase-size", default=6, type=int, metavar="N")
+    parser.add_argument("--leaf-pruning-threshold", default=0.3, type=float, metavar="N",
                         help="The fraction of times a larger phrase must appear more than a sub-phrase")
     parser.add_argument("--min-phrase-count", default=4.0, type=float, metavar="N",
                         help="The minimum occurrences of a phrase in the target data")
@@ -137,43 +141,57 @@ def iter_large_csv_text(path, text_col_name):
             yield text
 
 
+def top_phrases_to_csv(top_phrases, output_path):
+    import_data = [(word, " ".join(phrases[0][0]), phrases[0][1]) for word, phrases in top_phrases.items()]
+    df = pd.DataFrame(import_data)
+    df.columns = ["word", "phrases", "count"]
+    df.to_csv(output_path, index=False)
+
+
 if __name__ == "__main__":
 
     args = parse_args()
 
+    print("-- Configuration Options --")
     for arg in vars(args):
-        print(f"{arg}: {getattr(args, arg)}")
+        print(f"- {arg}: {getattr(args, arg)}")
+    print("---------------------------")
 
     # Find interesting words
     words = None
     if args.target and args.background:
 
+        print("> Counting target words")
         target_counts = count_words(iter_large_csv_text(args.target, args.text_col_name), args.min_target_word_count, args.language)
+        print("\n> Counting background words")
         background_counts = count_words(iter_large_csv_text(args.background, args.text_col_name), args.min_background_word_count, args.language)
 
+        print("\n> Extracting surprisingly frequent words")
         if args.method == "llr":
-            words, columns = top_words_llr(target_counts, background_counts, args.num_words)
+            words = top_words_llr(target_counts, background_counts, args.num_words)
         elif args.method == "sfpd":
-            words, columns = top_words_sfpd(target_counts, background_counts, args.num_words, args.likelihood_lift)
+            words = top_words_sfpd(target_counts, background_counts, args.num_words, args.likelihood_lift)
         elif args.method == "chi2":
-            words, columns = top_words_chi2(target_counts, background_counts, args.num_words)
+            words = top_words_chi2(target_counts, background_counts, args.num_words)
         else:
-            raise ValueError(f"No such method: {method}")
+            raise ValueError(f"No such method: {args.method}")
 
-        words.to_csv(Path(args.target).with_suffix(f".{args.method}{args.name}.words.csv"), index=False)
+        words.to_csv(Path(args.target).with_suffix(f".{args.method}.{args.name}.words.csv"), index=False)
 
     # Find frequent phrases
     if args.words:
         words = pd.read_csv(args.words)
     if words is not None and args.target:
+        print("> Expanding to phrases")
+
         top_phrases = get_top_phrases(
             args.num_phrases,
             iter_large_csv_text(args.target, args.text_col_name),
-            words,
+            words["word"].values,
             args.language,
             args.min_phrase_size,
             args.max_phrase_size,
-            args.min_leaf_pruning,
+            args.leaf_pruning_threshold,
             args.min_phrase_count,
             args.phrase_lvl1,
             args.phrase_lvl2,
@@ -184,7 +202,7 @@ if __name__ == "__main__":
             phrase = " ".join(phrases[0][0])
             print(f"{word}: {phrase} ({phrases[0][1]})")
 
-        top_phrases_to_csv(top_phrases, Path(args.target).with_suffix(f".{args.method}{args.name}.phrases.csv"))
+        top_phrases_to_csv(top_phrases, Path(args.target).with_suffix(f".{args.method}.{args.name}.phrases.csv"))
 
     # Explore string contexts
     if args.target and args.pattern:

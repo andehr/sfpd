@@ -3,6 +3,7 @@ from collections import namedtuple, Counter
 from enum import Enum
 from importlib import import_module
 from math import log
+from multiprocessing import Pool
 
 import numpy as np
 import pandas as pd
@@ -373,15 +374,6 @@ class Arc:
         return Arc(form, ArcType.NULL)
 
 
-
-
-def get_top_phrases_cli(k, texts_df, words_df, texts_col="twitter.tweet/text", words_col="features"):
-    return get_top_phrases(
-        k,
-        texts_df[texts_col].values,
-        words_df[words_col].values)
-
-
 def get_top_phrases(k, texts, words, language="en",
                     min_n=1, max_n=6,
                     min_leaf_pruning=0.3,
@@ -410,15 +402,9 @@ def get_top_phrases(k, texts, words, language="en",
         doc_count += 1
         if doc_count % 100 == 0:
             print(f"\r> Processed {doc_count} docs", end="")
+    print()
 
     return {c.root_form:c.top_ngrams(k) for c in counters}
-
-
-def top_phrases_to_csv(top_phrases, output_path):
-    import_data = [(word, " ".join(phrases[0][0]), phrases[0][1]) for word, phrases in top_phrases.items()]
-    df = pd.DataFrame(import_data)
-    df.columns = ["word", "phrases", "count"]
-    df.to_csv(output_path, index=False)
 
 
 def count_words(texts, min_count=0, language="en"):
