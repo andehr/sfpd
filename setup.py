@@ -13,6 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/andehr/sfpd",
     packages=setuptools.find_packages(),
+    license="proprietary and confidential",
     install_requires=[
         "sklearn>=0.19.1",
         "spacy>=2.0.11"
@@ -21,7 +22,6 @@ setuptools.setup(
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
 )
