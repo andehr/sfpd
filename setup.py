@@ -15,7 +15,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     license="proprietary and confidential",
     install_requires=[
-        "sklearn>=0.19.1",
+        "scikit-learn>=0.19.1",
         "spacy>=2.0.11"
         "numpy>=1.14.3"
         "pandas>=0.23.0"
