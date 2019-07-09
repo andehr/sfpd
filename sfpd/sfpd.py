@@ -478,5 +478,13 @@ def top_words_llr(target_counts, background_counts, n=100):
     columns = [(k, v, target_counts[k], background_counts[k]) for k,v in sorted(diff.items(), key=lambda x: x[1], reverse=True)[:n]]
     return dateframe_from_columns(columns, ["word", "score", "frequency/target", "frequency/background"])
 
+def iter_large_csv_text(path, text_col_name):
+    """
+    Return iterator over texts in a CSV, loading a fixed amount of the CSV into memory at any time.
+    """
+    for data_chunk in pd.read_csv(path, chunksize=10000):
+        for text in data_chunk[text_col_name].values:
+            yield text
+
 
 

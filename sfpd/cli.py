@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from sfpd.sfpd import count_words, top_words_llr, top_words_sfpd, top_words_chi2, get_top_phrases
+from sfpd.sfpd import count_words, top_words_llr, top_words_sfpd, top_words_chi2, get_top_phrases, iter_large_csv_text
 
 
 def parse_args():
@@ -130,15 +130,6 @@ def compares_csvs(csvs, n=20, m=20, word_col_name="word", phrase_col_name="phras
     for item in (items1 & items2):
         row = df2[df2[word_col_name] == item].head(1)
         print(f"  {row[word_col_name].values[0]}: {row[phrase_col_name].values[0]} ({row[count_col_name].values[0]})")
-
-
-def iter_large_csv_text(path, text_col_name):
-    """
-    Return iterator over texts in a CSV, loading a fixed amount of the CSV into memory at any time.
-    """
-    for data_chunk in pd.read_csv(path, chunksize=10000):
-        for text in data_chunk[text_col_name].values:
-            yield text
 
 
 def top_phrases_to_csv(top_phrases, output_path):
