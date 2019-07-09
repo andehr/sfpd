@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/andehr/sfpd",
     packages=setuptools.find_packages(),
     install_requires=[
-        "skearn>=0.19.1",
+        "sklearn>=0.19.1",
         "spacy>=2.0.11"
         "numpy>=1.14.3"
         "pandas>=0.23.0"
