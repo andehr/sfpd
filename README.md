@@ -8,7 +8,7 @@ From source:
 
 `pip setup.py install`
 
-From PyPi (not yet uploaded)
+From PyPi (not yet uploaded, need to check licensing issues...)
 
 `pip install sfpd`
 
