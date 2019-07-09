@@ -24,6 +24,10 @@ Use command line interface:
 
 `python -m sfpd.cli --help`
 
+For example, the following will find surprising phrases in `target.csv` versus `background.csv`:
+
+`python -m sfpd.cli --target target.csv --background background.csv`
+
 
 ### Programmatically
 
