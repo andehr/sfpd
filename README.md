@@ -1,6 +1,6 @@
 # Surprisingly Frequent Phrase Detection
 
-Library implementing surprising frequent phrase detection as defined in "Characterising Semantically Coherent Categories of Text Using Feature Discovery" (2018).
+Library implementing surprising frequent phrase detection as defined in "Characterising Semantically Coherent Classes of Text Using Feature Discovery" (2018).
 
 ## Install
 
