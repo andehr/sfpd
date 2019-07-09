@@ -8,7 +8,7 @@ def get_spacy_model(language):
     try:
         return spacy.load(language, disable=['tagger', 'parser', 'ner'])
     except OSError:
-        raise ValueError(f"Either the language model '{language}' is not supported in spaCy, or is not installed on your system. Try running: python -m spacy downlod {language}")
+        raise ValueError(f"Either the language model '{language}' is not supported in spaCy, or is not installed on your system. Try running: python -m spacy download {language}")
 
 
 class PhraseTokeniser:
