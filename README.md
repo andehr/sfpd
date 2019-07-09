@@ -2,6 +2,12 @@
 
 ## Install
 
+From source:
+
+`pip setup.py install`
+
+From PyPi (not yet uploaded)
+
 `pip install sfpd`
 
 ## Usage
