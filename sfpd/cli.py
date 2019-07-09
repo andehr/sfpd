@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from sfpd.sfpd import count_words, top_words_llr, top_words_sfpd, top_words_chi2, get_top_phrases, iter_large_csv_text
+from sfpd.detection import count_words, top_words_llr, top_words_sfpd, top_words_chi2, get_top_phrases, iter_large_csv_text
 
 
 def parse_args():
@@ -44,7 +44,7 @@ def parse_args():
                         help="column name of text in CSV files")
 
     # Parameters
-    parser.add_argument("-n", "--num-words", default=100,
+    parser.add_argument("-n", "--num-words", default=100, type=int,
                         help="the number of words to extract during word extraction methods")
     parser.add_argument("-l", "--likelihood-lift", default=0.4, type=float,
                         help="Parameter for SFPD method. When set to 0, features are ranked solely by how surprisingly frequently they occur in the target data vs background (lift). When set to 1, features are ranked solely according to their likelihood of occurrence in the target data (therefore ignoring the background documents). Values inbetween allow a weighted contribution of lift and likelihood.")
@@ -60,11 +60,11 @@ def parse_args():
     parser.add_argument("--min-phrase-count", default=4.0, type=float, metavar="N",
                         help="The minimum occurrences of a phrase in the target data")
     parser.add_argument("--phrase-lvl1", default=5.0, type=float, metavar="N",
-                        help="When the occurrences of an n+1gram's parent ngram is less than this threshold, the n+1gram must have occurred 100% of these times to be considered.")
+                        help="When the occurrences of an n+1grams parent ngram is less than this threshold, the n+1gram must have occurred 100 percent of these times to be considered.")
     parser.add_argument("--phrase-lvl2", default=7.0, type=float, metavar="N",
-                        help="When the occurrences of an n+1gram's parent ngram is less than this threshold, the n+1gram must have occurred 75% of these times to be considered.")
+                        help="When the occurrences of an n+1grams parent ngram is less than this threshold, the n+1gram must have occurred 75 percent of these times to be considered.")
     parser.add_argument("--phrase-lvl3", default=15.0, type=float, metavar="N",
-                        help="When the occurrences of an n+1gram's parent ngram is less than this threshold, the n+1gram must have occurred 50% of these times to be considered.")
+                        help="When the occurrences of an n+1grams parent ngram is less than this threshold, the n+1gram must have occurred 50 percent of these times to be considered.")
 
     return parser.parse_args()
 
