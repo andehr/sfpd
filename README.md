@@ -8,7 +8,13 @@
 
 ### Command-line
 
+Use command line interface:
+
 `python -m sfpd.cli --help`
+
+Install the relevant spacy language model, e.g. English "en":
+
+`python -m spacy download en`
 
 ### Programmatically
 
