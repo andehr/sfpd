@@ -48,7 +48,7 @@ class PhraseTokeniser:
         return [token.text for token in self.nlp(text.strip().lower())]
 
     def get_stopwords(self):
-        default_stopwords = import_module(f"spacy.lang.{language}.stop_words").STOP_WORDS
+        default_stopwords = import_module(f"spacy.lang.{self.language}.stop_words").STOP_WORDS
         return default_stopwords | EXTRA_STOPWORDS
 
 class WordTokeniser:
