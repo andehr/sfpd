@@ -3,7 +3,6 @@ from collections import namedtuple, Counter
 from enum import Enum
 from importlib import import_module
 from math import log
-from multiprocessing import Pool
 
 import numpy as np
 import pandas as pd
@@ -381,7 +380,7 @@ def get_top_phrases(k, texts, words, language="en",
                     level1=5, level2=7, level3=15):
 
     tokeniser = PhraseTokeniser(language)
-    stopwords = import_module(f"spacy.lang.{language}.stop_words").STOP_WORDS
+    stopwords = tokeniser.get_stopwords()
 
     print("> Finding phrases")
 
@@ -394,7 +393,7 @@ def get_top_phrases(k, texts, words, language="en",
 
     doc_count = 0
     for text in texts:
-        tokens = [token.lower() for token in tokeniser(text)]
+        tokens = tokeniser(text)
 
         for counter in counters:
             counter.add_context(tokens, 1)
@@ -404,7 +403,7 @@ def get_top_phrases(k, texts, words, language="en",
             print(f"\r> Processed {doc_count} docs", end="")
     print()
 
-    return {c.root_form:c.top_ngrams(k) for c in counters}
+    return {c.root_form: c.top_ngrams(k) for c in counters}
 
 
 def count_words(texts, min_count=0, language="en"):
