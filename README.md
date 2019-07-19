@@ -78,5 +78,5 @@ Next you can expand these words to phrases:
 ```python
 from sfpd.detection import get_top_phrases
 
-top_phrases = get_top_phrases(words["word"].values, iter_large_csv_text(target_path, text_column_name))
+top_phrases = get_top_phrases(100, iter_large_csv_text(target_path, text_column_name), words["word"].values)
 ```
