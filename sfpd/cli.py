@@ -7,7 +7,9 @@ from pathlib import Path
 
 import pandas as pd
 
-from sfpd.detection import count_words, top_words_llr, top_words_sfpd, top_words_chi2, get_top_phrases, iter_large_csv_text
+from sfpd.words import count_words, top_words_llr, top_words_sfpd, top_words_chi2
+from sfpd.phrases import get_top_phrases
+from sfpd.util import iter_large_csv_text
 
 
 def parse_args():
