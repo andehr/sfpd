@@ -1,9 +1,10 @@
 import heapq
-from collections import namedtuple
+from collections import namedtuple, OrderedDict
 from enum import Enum
 
 from sfpd.tokenise import PhraseTokeniser
 
+import pandas as pd
 
 class NgramCounter:
     """
@@ -395,4 +396,27 @@ def get_top_phrases(words, texts, k=1, language="en",
             print(f"\r> Processed {doc_count} docs", end="")
     print()
 
-    return {c.root_form: c.top_ngrams(k) for c in counters}
+    return TopPhrases(counters, k)
+
+
+class TopPhrases:
+
+    def __init__(self, counters, num_phrases):
+        """
+        Each word is associated with 1 or more phrases. The ordering of most surprising word first is maintained.
+        """
+        self.data = OrderedDict((c.root_form, c.top_ngrams(num_phrases)) for c in counters)
+
+    def raw_phrases(self):
+        """
+        For each surprising word in turn, collect all of its phrases, all together in one big list.
+        """
+        return [self.phrase2str(phrase[0]) for word, phrases in self.data.items() for phrase in phrases]
+
+    def top_phrases_per_word(self):
+        return OrderedDict((word, phrases[0]) for word, phrases in self.data.items())
+
+    def phrase2str(self, phrase):
+        return " ".join(phrase)
+
+
