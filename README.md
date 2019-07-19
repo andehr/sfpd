@@ -6,7 +6,7 @@ Library implementing surprising frequent phrase detection as defined in "Charact
 
 From source:
 
-`pip setup.py install`
+`python setup.py install`
 
 From PyPi (not yet uploaded, need to check licensing issues...)
 
