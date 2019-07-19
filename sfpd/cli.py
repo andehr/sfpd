@@ -176,9 +176,9 @@ if __name__ == "__main__":
         print("> Expanding to phrases")
 
         top_phrases = get_top_phrases(
-            args.num_phrases,
-            iter_large_csv_text(args.target, args.text_col_name),
             words["word"].values,
+            iter_large_csv_text(args.target, args.text_col_name),
+            args.num_phrases,
             args.language,
             args.min_phrase_size,
             args.max_phrase_size,
