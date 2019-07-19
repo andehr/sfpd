@@ -373,7 +373,7 @@ class Arc:
         return Arc(form, ArcType.NULL)
 
 
-def get_top_phrases(k, texts, words, language="en",
+def get_top_phrases(words, texts, k=1, language="en",
                     min_n=1, max_n=6,
                     min_leaf_pruning=0.3,
                     min_ngram_count=4,
