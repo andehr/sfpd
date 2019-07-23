@@ -85,7 +85,7 @@ top_phrases = get_top_phrases(words["word"].values, iter_large_csv_text(target_p
 
 If you use this tool, please include the following citation:
 
-Robertson, Andrew David, 2019. *Characterising semantically coherent classes of text through feature discovery* (Doctoral thesis, University of Sussex).
+> Robertson, Andrew David, 2019. *Characterising semantically coherent classes of text through feature discovery* (Doctoral thesis, University of Sussex).
 
 Here's the bibtex:
 
