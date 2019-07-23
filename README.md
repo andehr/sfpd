@@ -9,7 +9,7 @@ If you use this tool, please include the following citation:
 
 Here's the bibtex:
 
-```bibtex
+```java
 @phdthesis{robertson2019characterising,
   title={Characterising semantically coherent classes of text through feature discovery},
   author={Robertson, Andrew David},
