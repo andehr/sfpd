@@ -31,7 +31,7 @@ def dateframe_from_columns(columns, column_names):
     return df
 
 
-def top_words_sfpd(target_counts, background_counts, n=100, l=0.4):
+def top_words_sfpd(target_counts, background_counts, n=100, l=0.4, smoothing=0.1):
     total_target = sum(target_counts.values())
     print(f"> Target total words: {total_target}")
     total_background = sum(target_counts.values())
@@ -43,10 +43,10 @@ def top_words_sfpd(target_counts, background_counts, n=100, l=0.4):
     print(f"> Background vocabulary size: {vocab_background}")
 
     def score(feature):
-        # L * log(P(feature|target)) + (L-1)*log(P(feature|target)/P(feature|background))
+        # L * log(P(feature|target)) + (1-L)*log(P(feature|target)/P(feature|background))
 
-        target_p = (target_counts[feature] + 0.1) / (total_target + 0.1*vocab_target)
-        background_p = (background_counts[feature] + 0.1) / (total_background + 0.1*vocab_background)
+        target_p = (target_counts[feature] + smoothing) / (total_target + smoothing*vocab_target)
+        background_p = (background_counts[feature] + smoothing) / (total_background + smoothing*vocab_background)
 
         weightedLikelihood = l * log(target_p)
         weightPMI = (1-l) * (log(target_p) - log(background_p))
