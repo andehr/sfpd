@@ -26,9 +26,9 @@ From source:
 
 From PyPi (not yet uploaded, need to check licensing issues...)
 
-`pip install sfpd`
+~`pip install sfpd`~
 
-Install the relevant spacy language model, e.g. English "en":
+Then install the relevant spacy language model, e.g. English "en":
 
 `python -m spacy download en`
 
@@ -97,4 +97,4 @@ from sfpd.phrases import get_top_phrases
 top_phrases = get_top_phrases(words["word"].values, iter_large_csv_text(target_path, text_column_name))
 ```
 
-These will be TopPhrase objects: https://github.com/andehr/sfpd/blob/master/sfpd/phrases.py#L402
+The output will be TopPhrase objects: https://github.com/andehr/sfpd/blob/master/sfpd/phrases.py#L402
