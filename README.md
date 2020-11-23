@@ -97,4 +97,4 @@ from sfpd.phrases import get_top_phrases
 top_phrases = get_top_phrases(words["word"].values, iter_large_csv_text(target_path, text_column_name))
 ```
 
-The output will be TopPhrase objects: https://github.com/andehr/sfpd/blob/master/sfpd/phrases.py#L402
+The output will be a TopPhrases object, which you can interrogate for phrase information: https://github.com/andehr/sfpd/blob/6bfabb87a330d462a1fdaad8e0c344b6f853e06f/sfpd/phrases.py#L402
