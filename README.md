@@ -24,7 +24,7 @@ From source:
 
 `python setup.py install`
 
-From PyPi (not yet uploaded, need to check licensing issues...)
+~Alternatively, from PyPi~ (not yet uploaded, need to check licensing issues...)
 
 ~`pip install sfpd`~
 
