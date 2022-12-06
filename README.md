@@ -24,10 +24,6 @@ From source:
 
 `python setup.py install`
 
-~Alternatively, from PyPi~ (not yet uploaded, need to check licensing issues...)
-
-~`pip install sfpd`~
-
 Then install the relevant spacy language model, e.g. English "en":
 
 `python -m spacy download en`
